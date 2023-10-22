@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:parcial_moviles/constant.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:parcial_moviles/dashboard.dart';
 
 class SignUp extends StatelessWidget{
@@ -13,14 +13,17 @@ class SignUp extends StatelessWidget{
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SignUppage(),
-    ) ;
+    );
   }
 }
 
 class SignUppage extends StatefulWidget{
-  const SignUppage({super.key});
+  //const SignUppage({super.key});
+    const SignUppage({Key? key}) : super(key: key);
+
   @override
-  State<SignUppage> createState() => _SignUppageState();
+    _SignUppageState createState() => _SignUppageState();
+  //State<SignUppage> createState() => _SignUppageState();
 }
 
 class _SignUppageState extends State<SignUppage>{
@@ -32,12 +35,15 @@ class _SignUppageState extends State<SignUppage>{
 
   Future register() async{
     var url = Uri.http(Constants().ip,'/bd_flutter/register.php',{'q':'{http}'});
+
     var response = await http.post(url, body:{
+      
       "name": name.text.toString(),
       "email": email.text.toString(),
       "phone": phone.text.toString(),
       "password": password.text.toString()
     });
+    print(response.body);
     var data = jsonDecode(response.body);
     if(data=="Error"){
       Fluttertoast.showToast(
@@ -265,7 +271,7 @@ class _SignUppageState extends State<SignUppage>{
                                 child: Icon(
                                   showPassword
                                   ? Icons.visibility
-                                      : Icons.visibility_off
+                                      : Icons.visibility_off,
                                 color: Colors.white70,
                                 size: 20,
                                 ),
